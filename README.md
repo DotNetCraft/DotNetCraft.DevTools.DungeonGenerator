@@ -1,3 +1,3 @@
 # DotNetCraft.DevTools.DungeonGenerator
-
-![Master](https://github.com/DotNetCraft/DevTools.DungeonGenerator/actions/workflows/dotnet.yml/badge.svg)
+          
+![Master](https://github.com/DotNetCraft/DotNetCraft.DevTools.DungeonGenerator/actions/workflows/dotnet.yml/badge.svg)
