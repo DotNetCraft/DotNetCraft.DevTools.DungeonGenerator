@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using DotNetCraft.DevTools.DungeonGenerator.Core.Graphs;
 using DotNetCraft.DevTools.DungeonGenerator.Core.Utils;
 using Microsoft.Extensions.Logging;
@@ -25,7 +24,10 @@ namespace DotNetCraft.DevTools.DungeonGenerator.Business.Graphs
             graph.Edges.ForEach(x => x.Weight = -1);
 
             var distances = new int[graph.Vertices.Count + 1]; //because vertices start from 1
-            Array.Fill(distances, -1);
+            for (var i = 0; i < distances.Length; i++)
+            {
+                distances[i] = -1;
+            }
             distances[rootVertex] = 0;
 
             var queue = new Queue<int>();
@@ -90,7 +92,10 @@ namespace DotNetCraft.DevTools.DungeonGenerator.Business.Graphs
             var result = new Graph();
             
             var markedVertices = new int[graph.Vertices.Count + 1];//Vertices start from 1
-            Array.Fill(markedVertices, -1);
+            for (var i = 0; i < markedVertices.Length; i++)
+            {
+                markedVertices[i] = -1;
+            }
 
             var activeVertex = rootVertex ?? _random.RandomNumber(1, graph.Vertices.Count + 1);
             markedVertices[activeVertex] = 1;

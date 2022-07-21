@@ -5,6 +5,6 @@ namespace DotNetCraft.DevTools.DungeonGenerator.Core.BinarySpacePartitioning
 {
     public interface IBinarySpacePartitioningBuilder
     {
-        public List<Leaf> Build(Rect mainRect, BuildConfig buildConfig);
+        List<Leaf> Build(Rect mainRect, BuildConfig buildConfig);
     }
 }
