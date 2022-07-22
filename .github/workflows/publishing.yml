@@ -46,7 +46,7 @@ jobs:
       
     - name: Build
       run: |
-        arrTag=(${GITHUB_REF//\// })
+        arrTag=(${GITHUB_REF//\// })    
         BUILD_VERSION="${arrTag[2]}"
         BUILD_VERSION="${BUILD_VERSION//v}"
         dotnet build $SOLUTION --configuration $BUILD_CONFIG -p:Version=$BUILD_VERSION --no-restore
