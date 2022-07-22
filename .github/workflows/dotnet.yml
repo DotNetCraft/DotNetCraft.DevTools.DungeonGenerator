@@ -2,9 +2,9 @@ name: Normal build
 
 on:
   push:
-    branches: [ "master" ]
+    branches: [ "develop", "feature", "release", "hotfix" ]
   pull_request:
-    branches: [ "master" ]
+    branches: [ "develop", "feature", "release", "hotfix" ]
 
 jobs:
   build:
@@ -20,6 +20,6 @@ jobs:
     - name: Restore dependencies
       run: dotnet restore
     - name: Build
-      run: dotnet build --configuration Release /p:Version=${VERSION} --no-restore
+      run: dotnet build --no-restore
     - name: Test
-      run: dotnet test --configuration Release /p:Version=${VERSION} --no-build
+      run: dotnet test --no-build
