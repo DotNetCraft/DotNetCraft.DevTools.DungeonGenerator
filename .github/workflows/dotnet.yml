@@ -1,4 +1,4 @@
-name: NormalBuild
+name: Develop
 
 on:
   push:

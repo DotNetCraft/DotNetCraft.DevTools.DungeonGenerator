@@ -1,4 +1,4 @@
-name: PublishingToNuGet
+name: NuGet
 
 on:
   push:
