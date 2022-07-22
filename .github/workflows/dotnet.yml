@@ -18,8 +18,14 @@ jobs:
       with:
         dotnet-version: 6.0.x
     - name: Restore dependencies
-      run: dotnet restore
+      run: dotnet restore --configuration Release
     - name: Build
-      run: dotnet build --no-restore
+      run: dotnet build --configuration Release /p:Version=${VERSION} --no-restore
     - name: Test
-      run: dotnet test --no-build --verbosity normal
+      run: dotnet test --configuration Release /p:Version=${VERSION} --no-build
+    - name: Pack
+      run: dotnet pack --configuration Release /p:Version=${VERSION} --no-build --output .
+    - name: Push
+      run: dotnet nuget push DotNetCraft.DevTools.DungeonGenerator.${VERSION}.nupkg --source https://nuget.pkg.github.com/dotnetcraft/index.json --api-key ${GITHUB_TOKEN}
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
