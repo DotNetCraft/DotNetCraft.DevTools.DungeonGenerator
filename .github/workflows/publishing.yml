@@ -1,9 +1,11 @@
 name: Publishing to NuGet
 
 on:
-  push:
-    tags:
-    - "v[0-9]+.[0-9]+.[0-9]+"
+push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+    
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -11,17 +13,20 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v2
-    - name: Verify commit exists in origin/master
+      
+    - name: Get Build Version
       run: |
-        git fetch --no-tags --prune --depth=1 origin +refs/heads/*:refs/remotes/origin/*
-        git branch --remote --contains | grep origin/master
-    - name: Set VERSION variable from tag
-      run: echo "VERSION=${GITHUB_REF/refs\/tags\/v/}" >> $GITHUB_ENV
+        Import-Module .\build\GetBuildVersion.psm1
+        Write-Host $Env:GITHUB_REF
+        $version = GetBuildVersion -VersionString $Env:GITHUB_REF
+        echo "BUILD_VERSION=$version" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf-8 -Append
+      shell: pwsh
+      
     - name: Build
-      run: dotnet build --configuration Release /p:Version=${VERSION}
+      run: dotnet build $SOLUTION --configuration $BUILD_CONFIG -p:Version=$BUILD_VERSION --no-restore
+      
     - name: Test
-      run: dotnet test --configuration Release /p:Version=${VERSION} --no-build
-    - name: Pack
-      run: dotnet pack --configuration Release /p:Version=${VERSION} --no-build --output .
+      run: dotnet test /p:Configuration=$env:BUILD_CONFIG --no-restore --no-build --verbosity normal
+      
     - name: Publish
       run: nuget push **\*.nupkg -Source 'https://api.nuget.org/v3/index.json' -ApiKey ${{secrets.NUGET_API_KEY}}
