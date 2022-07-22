@@ -15,16 +15,9 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
-    - name: condition 1
-        if: runner.os == 'Windows'
+    - name: Run Info
         run: |
             echo "The operating system on the runner is $env:RUNNER_OS."
-            echo "GITHUB_RUN_ID = $GITHUB_RUN_ID."
-            echo "GITHUB_REF  (1) = ${{ github.ref }}."
-            echo "GITHUB_REF  (1) = $GITHUB_ENV."
-    - name: condition 2
-        if: runner.os != 'Windows'
-        run: |
             echo "The operating system on the runner is not Windows, it's $RUNNER_OS."
             echo "GITHUB_RUN_ID = $GITHUB_RUN_ID."
             echo "GITHUB_REF  (1) = ${{ github.ref }}."
