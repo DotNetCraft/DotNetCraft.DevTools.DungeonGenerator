@@ -1,4 +1,4 @@
-name: Normal build
+name: NormalBuild
 
 on:
   push:
