@@ -18,11 +18,7 @@ jobs:
     - name: Run Info
       run: |
         echo "The operating system on the runner is $env:RUNNER_OS."
-        echo "The operating system on the runner is not Windows, it's $RUNNER_OS."
-        echo "GITHUB_RUN_ID = $GITHUB_RUN_ID."
-        echo "GITHUB_REF  (1) = ${{ github.ref }}."
-        echo "GITHUB_REF  (1) = $GITHUB_ENV."
-        echo "GITHUB_REF  (1) = $env:GITHUB_REF."
+        echo "GITHUB_REF = $env:GITHUB_REF."
         
     - name: Checkout
       uses: actions/checkout@v2
