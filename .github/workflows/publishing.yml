@@ -10,7 +10,7 @@ jobs:
   build:
     env:
       BUILD_CONFIG: 'Release'
-      SOLUTION: 'MySolution.sln'
+      SOLUTION: 'DotNetCraft.DevTools.DungeonGenerator.sln'
       
     runs-on: ubuntu-latest
     timeout-minutes: 15
