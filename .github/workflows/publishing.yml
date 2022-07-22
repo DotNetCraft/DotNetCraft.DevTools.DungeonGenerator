@@ -39,6 +39,9 @@ jobs:
       
     - name: Restore dependencies
       run: dotnet restore
+      
+    - name: Build
+      run: dotnet build $SOLUTION --configuration $BUILD_CONFIG -p:Version=$BUILD_VERSION --no-restore      
 
     - name: Run tests
       run: dotnet test --configuration $BUILD_CONFIG --no-restore --no-build --verbosity normal
