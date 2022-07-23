@@ -1,10 +1,10 @@
-name: Develop
+name: Master
 
 on:
   push:
-    branches: [ "develop", "release/*", "hotfix/*" ]
+    branches: [ "feature/*"]
   pull_request:
-    branches: [ "develop", "release/*", "hotfix/*" ]
+    branches: [ "feature/*"]
 
 jobs:
   build:
