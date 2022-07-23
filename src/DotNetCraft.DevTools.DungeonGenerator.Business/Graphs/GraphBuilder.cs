@@ -10,11 +10,13 @@ namespace DotNetCraft.DevTools.DungeonGenerator.Business.Graphs
 {
     public class GraphBuilder : IGraphBuilder
     {
+        private readonly IGraphMetadataStorage _graphMetadataStorage;
         private readonly IRectGeometry _rectGeometry;
         private readonly ILogger<IGraphBuilder> _logger;
 
-        public GraphBuilder(IRectGeometry rectGeometry, ILogger<IGraphBuilder> logger)
+        public GraphBuilder(IGraphMetadataStorage graphMetadataStorage, IRectGeometry rectGeometry, ILogger<IGraphBuilder> logger)
         {
+            _graphMetadataStorage = graphMetadataStorage ?? throw new ArgumentNullException(nameof(graphMetadataStorage));
             _rectGeometry = rectGeometry ?? throw new ArgumentNullException(nameof(rectGeometry));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
@@ -26,11 +28,17 @@ namespace DotNetCraft.DevTools.DungeonGenerator.Business.Graphs
             if (leaves == null)
                 throw new ArgumentNullException(nameof(leaves));
 
-            _logger.LogDebug($"Building Graph for {leaves.Count} leaves...");
+            _logger.LogDebug($"Building a graph for {leaves.Count} leaves...");
 
             var graph = new Graph();
 
             var activeLeaves = leaves.Where(x => x.ActiveLeaf).ToList();
+
+            for (var vertex = 0; vertex < activeLeaves.Count; vertex++)
+            {
+                var leaf = activeLeaves[vertex];
+                _graphMetadataStorage.AddVertexGeometry(graph.Id, vertex, leaf.Bounds);
+            }
 
             for (var i = 0; i < activeLeaves.Count - 1; i++)
             {
@@ -43,7 +51,7 @@ namespace DotNetCraft.DevTools.DungeonGenerator.Business.Graphs
                     if (hasCommonSide)
                     {
                         graph.AddEdge(i, j);
-                        //TODO: Save geometry from commonSide
+                        _graphMetadataStorage.AddEdgeCommonSide(graph.Id, i, j, commonSide);
                     }
                 }
             }

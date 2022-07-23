@@ -41,6 +41,11 @@
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.button2 = new System.Windows.Forms.Button();
+            this.textBoxRootVertex = new System.Windows.Forms.TextBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.checkBox2 = new System.Windows.Forms.CheckBox();
+            this.checkBox3 = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // drawPanel
@@ -84,7 +89,7 @@
             this.textBoxWidth.Name = "textBoxWidth";
             this.textBoxWidth.Size = new System.Drawing.Size(100, 23);
             this.textBoxWidth.TabIndex = 3;
-            this.textBoxWidth.Text = "40";
+            this.textBoxWidth.Text = "50";
             // 
             // textBoxHeight
             // 
@@ -92,7 +97,7 @@
             this.textBoxHeight.Name = "textBoxHeight";
             this.textBoxHeight.Size = new System.Drawing.Size(100, 23);
             this.textBoxHeight.TabIndex = 4;
-            this.textBoxHeight.Text = "40";
+            this.textBoxHeight.Text = "50";
             // 
             // label3
             // 
@@ -109,7 +114,7 @@
             this.textBoxScale.Name = "textBoxScale";
             this.textBoxScale.Size = new System.Drawing.Size(100, 23);
             this.textBoxScale.TabIndex = 6;
-            this.textBoxScale.Text = "10";
+            this.textBoxScale.Text = "12";
             // 
             // textBoxMaxSize
             // 
@@ -125,7 +130,7 @@
             this.textBoxMinSize.Name = "textBoxMinSize";
             this.textBoxMinSize.Size = new System.Drawing.Size(100, 23);
             this.textBoxMinSize.TabIndex = 9;
-            this.textBoxMinSize.Text = "10";
+            this.textBoxMinSize.Text = "5";
             // 
             // label4
             // 
@@ -147,7 +152,7 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(860, 268);
+            this.button2.Location = new System.Drawing.Point(860, 303);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(222, 39);
             this.button2.TabIndex = 11;
@@ -155,11 +160,73 @@
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
+            // textBoxRootVertex
+            // 
+            this.textBoxRootVertex.Location = new System.Drawing.Point(860, 274);
+            this.textBoxRootVertex.Name = "textBoxRootVertex";
+            this.textBoxRootVertex.Size = new System.Drawing.Size(100, 23);
+            this.textBoxRootVertex.TabIndex = 13;
+            this.textBoxRootVertex.Text = "5";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(860, 256);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(32, 15);
+            this.label6.TabIndex = 12;
+            this.label6.Text = "Root";
+            // 
+            // checkBox1
+            // 
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Checked = true;
+            this.checkBox1.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBox1.Location = new System.Drawing.Point(860, 366);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(77, 19);
+            this.checkBox1.TabIndex = 14;
+            this.checkBox1.Text = "Show BST";
+            this.checkBox1.UseVisualStyleBackColor = true;
+            this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
+            this.checkBox1.Click += new System.EventHandler(this.checkBox1_CheckedChanged);
+            // 
+            // checkBox2
+            // 
+            this.checkBox2.AutoSize = true;
+            this.checkBox2.Checked = true;
+            this.checkBox2.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBox2.Location = new System.Drawing.Point(860, 391);
+            this.checkBox2.Name = "checkBox2";
+            this.checkBox2.Size = new System.Drawing.Size(90, 19);
+            this.checkBox2.TabIndex = 15;
+            this.checkBox2.Text = "Show Graph";
+            this.checkBox2.UseVisualStyleBackColor = true;
+            this.checkBox2.Click += new System.EventHandler(this.checkBox1_CheckedChanged);
+            // 
+            // checkBox3
+            // 
+            this.checkBox3.AutoSize = true;
+            this.checkBox3.Checked = true;
+            this.checkBox3.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBox3.Location = new System.Drawing.Point(860, 416);
+            this.checkBox3.Name = "checkBox3";
+            this.checkBox3.Size = new System.Drawing.Size(81, 19);
+            this.checkBox3.TabIndex = 16;
+            this.checkBox3.Text = "Show MST";
+            this.checkBox3.UseVisualStyleBackColor = true;
+            this.checkBox3.Click += new System.EventHandler(this.checkBox1_CheckedChanged);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1101, 782);
+            this.Controls.Add(this.checkBox3);
+            this.Controls.Add(this.checkBox2);
+            this.Controls.Add(this.checkBox1);
+            this.Controls.Add(this.textBoxRootVertex);
+            this.Controls.Add(this.label6);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.textBoxMaxSize);
             this.Controls.Add(this.textBoxMinSize);
@@ -196,5 +263,10 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.TextBox textBoxRootVertex;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.CheckBox checkBox1;
+        private System.Windows.Forms.CheckBox checkBox2;
+        private System.Windows.Forms.CheckBox checkBox3;
     }
 }

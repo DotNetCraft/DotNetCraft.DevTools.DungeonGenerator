@@ -19,10 +19,12 @@ namespace DotNetCraft.DevTools.DungeonGenerator.Tests.Graphs
             var logger = new NullLogger<IGraphBuilder>();
             var rectGeometryLogger = new NullLogger<RectGeometry>();
             var lineGeometryLogger = new NullLogger<LineGeometry>();
+            var graphMetadataStorageLogger = new NullLogger<GraphMetadataStorage>();
 
             var lineGeometry = new LineGeometry(lineGeometryLogger);
             var rectGeometry = new RectGeometry(lineGeometry, rectGeometryLogger);
-            var graphBuilder = new GraphBuilder(rectGeometry, logger);
+            var graphMetadataStorage = new GraphMetadataStorage(graphMetadataStorageLogger);
+            var graphBuilder = new GraphBuilder(graphMetadataStorage, rectGeometry, logger);
 
             List<Leaf> leaves = new List<Leaf>();
 
