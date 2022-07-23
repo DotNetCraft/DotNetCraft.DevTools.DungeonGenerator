@@ -18,7 +18,7 @@ namespace DotNetCraft.DevTools.DungeonGenerator.Core.Geometry
             Width = width;
             Height = height;
 
-            var cx =  x+(width / 2.0f);
+            var cx = x + (width / 2.0f);
             var cy = y + (height / 2.0f);
 
             Center = new Vector2(cx, cy);

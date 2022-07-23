@@ -3,13 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.2.32616.157
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotNetCraft.DevTools.DungeonGenerator.Core", "src\DotNetCraft.DevTools.DungeonGenerator.Core\DotNetCraft.DevTools.DungeonGenerator.Core.csproj", "{D79C14AB-FCB3-4AC8-B9E0-FB3A4943A84B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotNetCraft.DevTools.DungeonGenerator.Core", "src\DotNetCraft.DevTools.DungeonGenerator.Core\DotNetCraft.DevTools.DungeonGenerator.Core.csproj", "{D79C14AB-FCB3-4AC8-B9E0-FB3A4943A84B}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_Core", "_Core", "{AD324D2A-F769-4637-A371-7196675FEA4A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotNetCraft.DevTools.DungeonGenerator.Tests", "tests\DotNetCraft.DevTools.DungeonGenerator.Tests\DotNetCraft.DevTools.DungeonGenerator.Tests.csproj", "{375B257A-2C83-48B7-B850-218AB29954C8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotNetCraft.DevTools.DungeonGenerator.Tests", "tests\DotNetCraft.DevTools.DungeonGenerator.Tests\DotNetCraft.DevTools.DungeonGenerator.Tests.csproj", "{375B257A-2C83-48B7-B850-218AB29954C8}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotNetCraft.DevTools.DungeonGenerator.Business", "src\DotNetCraft.DevTools.DungeonGenerator.Business\DotNetCraft.DevTools.DungeonGenerator.Business.csproj", "{BB90EE3C-E463-424C-BD70-423E8094E75A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_Examples", "_Examples", "{E171E8B2-2623-46CE-8D9E-834F911FB04E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DungeonGenerator.ExampleWinForm", "src\_Examples\DungeonGenerator.ExampleWinForm\DungeonGenerator.ExampleWinForm.csproj", "{9C8A5BB0-F221-47D7-914C-B8675516CDED}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,12 +33,17 @@ Global
 		{BB90EE3C-E463-424C-BD70-423E8094E75A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BB90EE3C-E463-424C-BD70-423E8094E75A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BB90EE3C-E463-424C-BD70-423E8094E75A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9C8A5BB0-F221-47D7-914C-B8675516CDED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9C8A5BB0-F221-47D7-914C-B8675516CDED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9C8A5BB0-F221-47D7-914C-B8675516CDED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9C8A5BB0-F221-47D7-914C-B8675516CDED}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{D79C14AB-FCB3-4AC8-B9E0-FB3A4943A84B} = {AD324D2A-F769-4637-A371-7196675FEA4A}
+		{9C8A5BB0-F221-47D7-914C-B8675516CDED} = {E171E8B2-2623-46CE-8D9E-834F911FB04E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {AF91844E-A075-4BC9-856A-D7A34F51F5AF}

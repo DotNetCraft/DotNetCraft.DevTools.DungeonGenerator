@@ -11,6 +11,11 @@
             Y = y;
         }
 
+        public static Vector2 operator *(Vector2 a, int scale)
+        {
+            return new Vector2(scale * a.X, scale * a.Y);
+        }
+
         #region Overrides of Object
 
         public override string ToString()
