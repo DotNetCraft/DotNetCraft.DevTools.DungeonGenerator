@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using DotNetCraft.DevTools.DungeonGenerator.Core.Graphs;
 using DotNetCraft.DevTools.DungeonGenerator.Core.Utils;
 using Microsoft.Extensions.Logging;
@@ -90,7 +91,7 @@ namespace DotNetCraft.DevTools.DungeonGenerator.Business.Graphs
         public Graph Kruskals_MST(Graph graph, int? rootVertex = null)
         {
             var result = new Graph();
-            
+
             var markedVertices = new int[graph.Vertices.Count + 1];//Vertices start from 1
             for (var i = 0; i < markedVertices.Length; i++)
             {
@@ -100,47 +101,38 @@ namespace DotNetCraft.DevTools.DungeonGenerator.Business.Graphs
             var activeVertex = rootVertex ?? _random.RandomNumber(1, graph.Vertices.Count + 1);
             markedVertices[activeVertex] = 1;
 
-            var currentVertex = activeVertex;
+            var queue = new Queue<int>();
+            queue.Enqueue(activeVertex);
+
+            var weight = 1;
             do
             {
-                var minWeight = int.MaxValue;
-                activeVertex = -1;
-                Edge forwardActiveEdge = null;
-                Edge backActiveEdge = null;
-                foreach (var edge in graph.Edges)
+                var nextQueue = new Queue<int>();
+                while (queue.Count > 0)
                 {
-                    if (edge.Vertex1 == currentVertex && markedVertices[edge.Vertex2] == -1)
-                    {
-                        if (edge.Weight < minWeight)
-                        {
-                            activeVertex = edge.Vertex2;
-                            minWeight = edge.Weight;
-                            forwardActiveEdge = edge;
-                        }
-                    }
+                    var currentVertex = queue.Dequeue();
+                    var connectedEdges = graph.Edges.Where(x => x.Vertex1 == currentVertex || x.Vertex2 == currentVertex).ToList();
 
-                    if (edge.Vertex2 == currentVertex && markedVertices[edge.Vertex1] == -1)
+                    foreach (var edge in connectedEdges)
                     {
-                        if (edge.Weight < minWeight)
+                        if (edge.Vertex1 == currentVertex && markedVertices[edge.Vertex2] == -1)
                         {
-                            activeVertex = edge.Vertex1;
-                            minWeight = edge.Weight;
-                            backActiveEdge = edge;
+                            markedVertices[edge.Vertex2] = 1;
+                            nextQueue.Enqueue(edge.Vertex2);
+                            result.AddEdge(edge.Vertex1, edge.Vertex2, weight);
+                        }
+
+                        if (edge.Vertex2 == currentVertex && markedVertices[edge.Vertex1] == -1)
+                        {
+                            markedVertices[edge.Vertex1] = 1;
+                            nextQueue.Enqueue(edge.Vertex1);
+                            result.AddEdge(edge.Vertex2, edge.Vertex1, weight);
                         }
                     }
                 }
 
-                if (forwardActiveEdge == null && backActiveEdge == null)
-                    break;
-
-                currentVertex = activeVertex;
-                markedVertices[activeVertex] = 1;
-                if (forwardActiveEdge != null)
-                    result.AddEdge(forwardActiveEdge.Vertex1, forwardActiveEdge.Vertex2);
-                if (backActiveEdge != null)
-                    result.AddEdge(backActiveEdge.Vertex2, backActiveEdge.Vertex1);
-
-            } while (result.Edges.Count < graph.Vertices.Count);
+                queue = nextQueue;
+            } while (queue.Count > 0);
 
             return result;
         }
