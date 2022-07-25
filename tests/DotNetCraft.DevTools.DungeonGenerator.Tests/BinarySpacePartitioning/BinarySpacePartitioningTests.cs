@@ -91,5 +91,48 @@ namespace DotNetCraft.DevTools.DungeonGenerator.Tests.BinarySpacePartitioning
             var expected = mainRect.Width * mainRect.Height;
             Assert.AreEqual(expected, square);
         }
+
+        [TestMethod]
+        public void BinarySpacePartitioningBuildRandomTest()
+        {
+            var logger = new NullLogger<BinarySpacePartitioningBuilder>();
+            var random = Substitute.For<IRandom>();
+            var builder = new BinarySpacePartitioningBuilder(random, logger);
+
+            var queue = new Queue<int>();
+            queue.Enqueue(6);
+            queue.Enqueue(5);
+            queue.Enqueue(5);
+            //random.WhenForAnyArgs(x=>x.Random()).Do();
+            random.RandomNumber(Arg.Any<int>(), Arg.Any<int>())
+                .ReturnsForAnyArgs(x => queue.Dequeue());
+
+            var mainRect = new Rect(0, 0, 10, 10);
+            var buildConfig = new BuildConfig
+            {
+                MinSize = 3,
+                MaxSize = 10,
+                SkipRoomFunc = (rect, list) => list.Count > 1
+            };
+            var leafs = builder.Build(mainRect, buildConfig);
+
+            Assert.IsNotNull(leafs);
+            Assert.AreEqual(3, leafs.Count);
+
+            var square = 0.0f;
+            foreach (var leaf in leafs)
+            {
+                Assert.IsTrue(leaf.Bounds.Width >= 3);
+                Assert.IsTrue(leaf.Bounds.Height >= 3);
+
+                if (leaf.ActiveLeaf)
+                {
+                    square += leaf.Bounds.Width * leaf.Bounds.Height;
+                }
+            }
+
+            var expected = mainRect.Width * mainRect.Height;
+            Assert.AreEqual(expected, square);
+        }
     }
 }

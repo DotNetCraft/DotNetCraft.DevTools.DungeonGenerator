@@ -31,11 +31,12 @@ namespace DotNetCraft.DevTools.DungeonGenerator.Business.BinarySpacePartitioning
             _logger.LogDebug($"Building BSP ({buildConfig})...");
 
             var minSize = buildConfig.MinSize;
+            var maxSize = buildConfig.MaxSize;
 
             var rootLeaf = new Leaf(mainRect);
             var leafQueue = new Queue<Leaf>();
             leafQueue.Enqueue(rootLeaf);
-            
+
             var result = new List<Leaf> { rootLeaf };
 
             while (leafQueue.Count > 0)
@@ -44,11 +45,11 @@ namespace DotNetCraft.DevTools.DungeonGenerator.Business.BinarySpacePartitioning
                 var width = leaf.Bounds.Width;
                 var height = leaf.Bounds.Height;
 
-                if (width <= buildConfig.MaxSize || height <= buildConfig.MinSize)
+                if (width <= maxSize || height <= maxSize)
                 {
                     if (buildConfig.SkipRoomFunc != null)
                     {
-                        var skipRoom = buildConfig.SkipRoomFunc(mainRect);
+                        var skipRoom = buildConfig.SkipRoomFunc(mainRect, result);
                         if (skipRoom)
                         {
                             leaf.ActiveLeaf = true;
@@ -57,7 +58,7 @@ namespace DotNetCraft.DevTools.DungeonGenerator.Business.BinarySpacePartitioning
                     }
                 }
 
-                if (width <= 2*minSize && height <= 2*minSize)
+                if (width <= 2 * minSize && height <= 2 * minSize)
                 {
                     leaf.ActiveLeaf = true;
                     continue;

@@ -43,10 +43,10 @@ namespace DungeonGenerator.ExampleWinForm
             {
                 MinSize = int.Parse(textBoxMinSize.Text),
                 MaxSize = int.Parse(textBoxMaxSize.Text),
-                SkipRoomFunc = rect =>
+                SkipRoomFunc = (rect, leaves) =>
                 {
                     var p = _random.RandomNumber(0, 101);
-                    return p < 30;
+                    return p < 50;
                 }
             };
 

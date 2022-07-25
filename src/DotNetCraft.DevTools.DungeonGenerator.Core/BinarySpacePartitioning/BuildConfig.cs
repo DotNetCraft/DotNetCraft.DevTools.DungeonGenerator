@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using DotNetCraft.DevTools.DungeonGenerator.Core.Geometry;
 
 namespace DotNetCraft.DevTools.DungeonGenerator.Core.BinarySpacePartitioning
@@ -7,7 +8,7 @@ namespace DotNetCraft.DevTools.DungeonGenerator.Core.BinarySpacePartitioning
     {
         public int MinSize { get; set; }
         public int MaxSize { get; set; }
-        public Func<Rect, bool> SkipRoomFunc { get; set; }
+        public Func<Rect, List<Leaf>, bool> SkipRoomFunc { get; set; }
 
         #region Overrides of Object
 
