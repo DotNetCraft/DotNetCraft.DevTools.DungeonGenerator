@@ -20,7 +20,6 @@ namespace DotNetCraft.DevTools.DungeonGenerator.Business
             services.AddSingleton<IRectGeometry, RectGeometry>();
             services.AddSingleton<IGraphAlgorithms, GraphAlgorithms>();
 
-            services.AddSingleton<IGraphMetadataStorage, GraphMetadataStorage>();
             services.AddSingleton<IGraphBuilder, GraphBuilder>();
 
             services.AddSingleton<IBinarySpacePartitioningBuilder, BinarySpacePartitioningBuilder>();

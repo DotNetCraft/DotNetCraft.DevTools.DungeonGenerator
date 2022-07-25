@@ -5,6 +5,6 @@ namespace DotNetCraft.DevTools.DungeonGenerator.Core.Graphs
 {
     public interface IGraphBuilder
     {
-        Graph Build(List<Leaf> leaves);
+        GraphDoc Build(List<Leaf> leaves);
     }
 }

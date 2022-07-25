@@ -19,12 +19,10 @@ namespace DotNetCraft.DevTools.DungeonGenerator.Tests.Graphs
             var logger = new NullLogger<IGraphBuilder>();
             var rectGeometryLogger = new NullLogger<RectGeometry>();
             var lineGeometryLogger = new NullLogger<LineGeometry>();
-            var graphMetadataStorageLogger = new NullLogger<GraphMetadataStorage>();
 
             var lineGeometry = new LineGeometry(lineGeometryLogger);
             var rectGeometry = new RectGeometry(lineGeometry, rectGeometryLogger);
-            var graphMetadataStorage = new GraphMetadataStorage(graphMetadataStorageLogger);
-            var graphBuilder = new GraphBuilder(graphMetadataStorage, rectGeometry, logger);
+            var graphBuilder = new GraphBuilder(rectGeometry, logger);
 
             List<Leaf> leaves = new List<Leaf>();
 
@@ -52,11 +50,11 @@ namespace DotNetCraft.DevTools.DungeonGenerator.Tests.Graphs
             
             var graph = graphBuilder.Build(leaves);
 
-            Assert.AreEqual(4, graph.Vertices.Count);
+            Assert.AreEqual(4, graph.Graph.Vertices.Count);
             for (var i = 0; i < 4; i++)
-                Assert.AreEqual(i, graph.Vertices.ElementAt(i));
+                Assert.AreEqual(i, graph.Graph.Vertices.ElementAt(i));
 
-            Assert.AreEqual(5, graph.Edges.Count);
+            Assert.AreEqual(5, graph.Graph.Edges.Count);
         }
     }
 }

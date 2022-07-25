@@ -5,8 +5,6 @@ namespace DotNetCraft.DevTools.DungeonGenerator.Core.Graphs
 {
     public class Graph
     {
-        public string Id { get; set; } = Guid.NewGuid().ToString("N");
-
         public List<int> Vertices { get; } = new List<int>();
         public List<Edge> Edges { get; } = new List<Edge>();
 

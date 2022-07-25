@@ -13,20 +13,18 @@ namespace DungeonGenerator.ExampleWinForm
     public partial class Form1 : Form
     {
         private readonly IRandom _random;
-        private readonly IGraphMetadataStorage _graphMetadataStorage;
         private readonly IBinarySpacePartitioningBuilder _binarySpacePartitioningBuilder;
         private readonly IGraphBuilder _graphBuilder;
         private readonly IGraphAlgorithms _graphAlgorithms;
         private Graphics _drawPanelGraphics;
 
-        private Graph _graph;
+        private GraphDoc _graph;
         private List<Leaf> _leaves;
-        private Graph _mstGraph = null;
+        private GraphDoc _mstGraph = null;
 
-        public Form1(IRandom random, IGraphMetadataStorage graphMetadataStorage, IBinarySpacePartitioningBuilder binarySpacePartitioningBuilder, IGraphBuilder graphBuilder, IGraphAlgorithms graphAlgorithms)
+        public Form1(IRandom random, IBinarySpacePartitioningBuilder binarySpacePartitioningBuilder, IGraphBuilder graphBuilder, IGraphAlgorithms graphAlgorithms)
         {
             _random = random ?? throw new ArgumentNullException(nameof(random));
-            _graphMetadataStorage = graphMetadataStorage ?? throw new ArgumentNullException(nameof(graphMetadataStorage));
             _binarySpacePartitioningBuilder = binarySpacePartitioningBuilder ?? throw new ArgumentNullException(nameof(binarySpacePartitioningBuilder));
             _graphBuilder = graphBuilder ?? throw new ArgumentNullException(nameof(graphBuilder));
             _graphAlgorithms = graphAlgorithms ?? throw new ArgumentNullException(nameof(graphAlgorithms));
@@ -50,15 +48,15 @@ namespace DungeonGenerator.ExampleWinForm
                 }
             };
 
-            if (_graph != null)
-                _graphMetadataStorage.RemoveGraphMetadata(_graph.Id);
-
             _leaves = _binarySpacePartitioningBuilder.Build(mainRect, buildConfig);
             _graph = _graphBuilder.Build(_leaves);
 
             var rootVertex = int.Parse(textBoxRootVertex.Text);
-            _mstGraph = _graphAlgorithms.Kruskals_MST(_graph, rootVertex);
-            _mstGraph.Id = _graph.Id;
+            _mstGraph = new GraphDoc
+            {
+                Graph = _graphAlgorithms.Kruskals_MST(_graph.Graph, rootVertex),
+                Metadata = _graph.Metadata
+            };
 
             RefreshScreen();
         }
@@ -101,8 +99,8 @@ namespace DungeonGenerator.ExampleWinForm
         private void button2_Click(object sender, EventArgs e)
         {
             var rootVertex = int.Parse(textBoxRootVertex.Text);
-            _mstGraph = _graphAlgorithms.Kruskals_MST(_graph, rootVertex);
-            _mstGraph.Id = _graph.Id;
+            _mstGraph.Graph = _graphAlgorithms.Kruskals_MST(_graph.Graph, rootVertex);
+            _mstGraph.Metadata = _graph.Metadata;
 
             RefreshScreen();
         }
@@ -117,14 +115,14 @@ namespace DungeonGenerator.ExampleWinForm
             }
         }
 
-        private void DrawGraph(Graph graph, Pen vertexPen, int scale, Pen edgePen)
+        private void DrawGraph(GraphDoc graph, Pen vertexPen, int scale, Pen edgePen)
         {
             var rootVertex = int.Parse(textBoxRootVertex.Text);
             var invalidPen = new Pen(Color.Red, 2);
             var rootPen = new Pen(Color.Red, 4);
-            foreach (var vertex in graph.Vertices)
+            foreach (var vertex in graph.Graph.Vertices)
             {
-                var rect1 = _graphMetadataStorage.GetVertexGeometry(graph.Id, vertex);
+                var rect1 = graph.Metadata.Geometries[vertex];
                 var c1 = rect1.Center * scale;
                 if (vertex == rootVertex)
                     _drawPanelGraphics.DrawEllipse(rootPen, (int)(c1.X - 2 - scale / 2.0), (int)(c1.Y - 2 - scale / 2.0), 2 + scale, 2 + scale);
@@ -133,10 +131,10 @@ namespace DungeonGenerator.ExampleWinForm
                 DrawString(c1.X, c1.Y, vertex.ToString(), _drawPanelGraphics);
 
                 var vertex1 = vertex;
-                var edges = graph.Edges.Where(x => x.Vertex1 == vertex1);
+                var edges = graph.Graph.Edges.Where(x => x.Vertex1 == vertex1);
                 foreach (var edge in edges)
                 {
-                    var rect2 = _graphMetadataStorage.GetVertexGeometry(graph.Id, edge.Vertex2);
+                    var rect2 = graph.Metadata.Geometries[edge.Vertex2];
                     var c2 = rect2.Center * scale;
                     //if (edge.Weight >= 1)
                     _drawPanelGraphics.DrawLine(edgePen, c1.X, c1.Y, c2.X, c2.Y);
