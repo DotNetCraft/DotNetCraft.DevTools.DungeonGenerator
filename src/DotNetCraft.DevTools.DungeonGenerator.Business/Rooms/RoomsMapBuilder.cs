@@ -19,16 +19,16 @@ namespace DotNetCraft.DevTools.DungeonGenerator.Business.Rooms
 
         #region Implementation of IRoomsMapBuilder
 
-        public RoomsMap Build(GraphDoc graphDoc)
+        public RoomsMap Build(GraphDoc graphDoc, Rect globalRect)
         {
-            var roomsMap = new RoomsMap();
+            var roomsMap = new RoomsMap(globalRect);
             foreach (var graphVertex in graphDoc.Graph.Vertices)
             {
                 var vertexGeometry = graphDoc.Metadata.Geometries[graphVertex];
                 var x = (int)vertexGeometry.X;
                 var y = (int)vertexGeometry.Y;
 
-                //roomsMap.AddRoom(x, y, vertexGeometry.Width, vertexGeometry.Height);
+                roomsMap.AddRoom(graphVertex, vertexGeometry);
             }
 
             return roomsMap;

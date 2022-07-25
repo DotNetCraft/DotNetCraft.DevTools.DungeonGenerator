@@ -6,6 +6,6 @@ namespace DotNetCraft.DevTools.DungeonGenerator.Core.Rooms
 {
     public interface IRoomsMapBuilder
     {
-        RoomsMap Build(GraphDoc graphDoc);
+        RoomsMap Build(GraphDoc graphDoc, Rect globalRect);
     }
 }
