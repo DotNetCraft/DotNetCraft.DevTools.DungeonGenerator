@@ -44,7 +44,20 @@ namespace DotNetCraft.DevTools.DungeonGenerator.Business.BinarySpacePartitioning
                 var width = leaf.Bounds.Width;
                 var height = leaf.Bounds.Height;
 
-                if (width <= 2 * minSize && height <= 2 * minSize)
+                if (width <= buildConfig.MaxSize || height <= buildConfig.MinSize)
+                {
+                    if (buildConfig.SkipRoomFunc != null)
+                    {
+                        var skipRoom = buildConfig.SkipRoomFunc(mainRect);
+                        if (skipRoom)
+                        {
+                            leaf.ActiveLeaf = true;
+                            continue;
+                        }
+                    }
+                }
+
+                if (width <= 2*minSize && height <= 2*minSize)
                 {
                     leaf.ActiveLeaf = true;
                     continue;
