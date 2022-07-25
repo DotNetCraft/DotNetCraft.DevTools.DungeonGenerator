@@ -6,11 +6,13 @@ using System.Windows.Forms;
 using DotNetCraft.DevTools.DungeonGenerator.Core.BinarySpacePartitioning;
 using DotNetCraft.DevTools.DungeonGenerator.Core.Geometry;
 using DotNetCraft.DevTools.DungeonGenerator.Core.Graphs;
+using DotNetCraft.DevTools.DungeonGenerator.Core.Utils;
 
 namespace DungeonGenerator.ExampleWinForm
 {
     public partial class Form1 : Form
     {
+        private readonly IRandom _random;
         private readonly IGraphMetadataStorage _graphMetadataStorage;
         private readonly IBinarySpacePartitioningBuilder _binarySpacePartitioningBuilder;
         private readonly IGraphBuilder _graphBuilder;
@@ -21,8 +23,9 @@ namespace DungeonGenerator.ExampleWinForm
         private List<Leaf> _leaves;
         private Graph _mstGraph = null;
 
-        public Form1(IGraphMetadataStorage graphMetadataStorage, IBinarySpacePartitioningBuilder binarySpacePartitioningBuilder, IGraphBuilder graphBuilder, IGraphAlgorithms graphAlgorithms)
+        public Form1(IRandom random, IGraphMetadataStorage graphMetadataStorage, IBinarySpacePartitioningBuilder binarySpacePartitioningBuilder, IGraphBuilder graphBuilder, IGraphAlgorithms graphAlgorithms)
         {
+            _random = random ?? throw new ArgumentNullException(nameof(random));
             _graphMetadataStorage = graphMetadataStorage ?? throw new ArgumentNullException(nameof(graphMetadataStorage));
             _binarySpacePartitioningBuilder = binarySpacePartitioningBuilder ?? throw new ArgumentNullException(nameof(binarySpacePartitioningBuilder));
             _graphBuilder = graphBuilder ?? throw new ArgumentNullException(nameof(graphBuilder));
@@ -39,7 +42,12 @@ namespace DungeonGenerator.ExampleWinForm
             var buildConfig = new BuildConfig
             {
                 MinSize = int.Parse(textBoxMinSize.Text),
-                MaxSize = int.Parse(textBoxMaxSize.Text)
+                MaxSize = int.Parse(textBoxMaxSize.Text),
+                SkipRoomFunc = (rect, leaves) =>
+                {
+                    var p = _random.RandomNumber(0, 101);
+                    return p < 50;
+                }
             };
 
             if (_graph != null)
