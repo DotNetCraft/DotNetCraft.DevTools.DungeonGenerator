@@ -7,22 +7,15 @@ on:
     
 jobs:
   build:
-    strategy:
-      matrix:
-        configuration: [Release]
-    runs-on: windows-latest  # For a list of available runner types, refer to
-                             # https://help.github.com/en/actions/reference/workflow-syntax-for-github-actions#jobsjob_idruns-on
-    
     env:
-      Solution_Name: DotNetCraft.DevTools.DungeonGenerator.sln
-      Test_Project_Path: tests\DotNetCraft.DevTools.DungeonGenerator.Tests\DotNetCraft.DevTools.DungeonGenerator.Tests.csproj
+      BUILD_CONFIG: 'Release'
+      SOLUTION: 'DotNetCraft.DevTools.DungeonGenerator.sln'
       
+    runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:       
     - name: Checkout
-      uses: actions/checkout@v3
-      with:
-        fetch-depth: 0
+      uses: actions/checkout@v2
       
     - name: Verify commit exists in origin/master
       run: |
@@ -31,25 +24,19 @@ jobs:
     - name: Set BUILD_VERSION variable from tag
       run: echo "BUILD_VERSION=${GITHUB_REF/refs\/tags\/v/}" >> $GITHUB_ENV
             
-    # Install the .NET Core workload
-    - name: Install .NET Core
+    - name: Setup .NET
       uses: actions/setup-dotnet@v2
       with:
-        dotnet-version: 6.0.x
+        dotnet-version: 6.0.x    
+      
+    - name: Restore dependencies
+      run: dotnet restore $SOLUTION
+      
+    - name: Build
+      run: dotnet build $SOLUTION --configuration $BUILD_CONFIG -p:Version=$BUILD_VERSION --no-restore      
 
-    # Add  MSBuild to the PATH: https://github.com/microsoft/setup-msbuild
-    - name: Setup MSBuild.exe
-      uses: microsoft/setup-msbuild@v1.0.2
-
-    # Execute all unit tests in the solution
-    - name: Execute unit tests
-      run: dotnet test
-
-    # Restore the application to populate the obj folder with RuntimeIdentifiers
-    - name: Restore the application
-      run: msbuild $env:Solution_Name /t:Restore /p:Configuration=$env:Configuration -p:Version=$BUILD_VERSION
-      env:
-        Configuration: ${{ matrix.configuration }}    
+    - name: Run tests
+      run: dotnet test $SOLUTION --configuration $BUILD_CONFIG --no-restore --no-build --verbosity normal
       
     - name: Publish
       run: nuget push **\*.nupkg -Source 'https://api.nuget.org/v3/index.json' -ApiKey ${{secrets.NUGET_API_KEY}}
